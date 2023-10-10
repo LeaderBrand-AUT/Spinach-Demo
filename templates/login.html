@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{{ title }}</title>
-    </head>
-    <body>
-        <img src="assets/Logo.png" alt="Leaderbrand Logo">
-        <h1>Produce Scanner Portal</h1>
-    </body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'nav.html' %}
+    <h1>Produce Scanner Portal</h1>
+
+    <form method="post" action="login">
+        <label for="emp_id">Employee ID<br>
+            <input type="text" name="emp_id" placeholder="Employee ID..." value="{{ request.form['emp_id'] }}" />
+        </label>
+        <label for="password">Password<br>
+            <input type="text" name="password" placeholder="Password..." value="{{ request.form['password'] }}" />
+        </label>
+        <button type="submit" class="submit">Login</button>
+    </form>
+
+    <a href="#" class="link">Forgot Password</a>
+{% endblock %}

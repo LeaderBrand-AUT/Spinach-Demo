@@ -1,0 +1,122 @@
+body {
+    background: linear-gradient(180deg, #4AB7AE 0%, rgba(217, 217, 217, 0.00) 23.96%);
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.link {
+    color: #7DC3EB; 
+    text-decoration: none;
+}
+
+nav {
+    margin-top: 32px;
+    width: 100%;
+}
+
+.back-arrow {
+    position: absolute;
+    left: 32px;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto;
+    padding-left: 16px;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+form {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    width: 400px;
+}
+
+form * {
+    margin-bottom: 4px;
+}
+
+form input {
+    margin-bottom: 16px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 0px 12px 12px 12px;
+    border: 1px solid #000;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+form .submit {
+    width: 200px;
+    padding: 16px 32px;
+    margin: 32px auto 64px auto;
+    border-radius: 12px;
+    background: #4AB7AE; 
+    color: white;
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+form .submit:hover {
+    cursor: pointer;
+}
+
+.dashboard-cards {
+    margin-top: 128px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 80%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 16px;
+    width: 250px;
+    max-width: 80%;
+    height: 250px;
+    background-color: white;
+    border-radius: 0px 12px 12px 12px;
+    border: 5px solid #4AB7AE; 
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    transition: 0.3s;
+}
+
+.card:hover {
+    cursor: pointer;
+    background-color: #eff9f8;
+    transition: 0.3s
+}
+
+.card img {
+    margin-top: 48px;
+    margin-bottom: 16px;
+}
+
+.logout {
+    position: absolute;
+    right: 32px;
+    bottom: 24px;
+    width: 200px;
+    padding: 16px 32px;
+    border-radius: 12px;
+    background: #F46B6B;
+    color: white;
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.logout:hover {
+    cursor: pointer;
+}

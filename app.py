@@ -1,18 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, request, url_for
 
 app = Flask(__name__)
 
-# Variable to keep track of whether user is logged in. Will be implemented properly one day
-isLoggedIn = False
-
 @app.route('/')
-@app.route('/index')
-def index():
-    return render_template('index.html', title='Produce Scanner')
-
-@app.route('/login')
+@app.route('/login', methods=('GET', 'POST'))
 def login():
-    if (not isLoggedIn):
-        return render_template('login.html')
+    if request.method == 'POST':
+        return redirect(url_for('dashboard'))
+
+    return render_template('login.html', title='Login')
+
+@app.route('/dashboard')
+def dashboard(): 
+    return render_template('dashboard.html', title='Dashboard')
 
 app.run(host='0.0.0.0', port=81)
