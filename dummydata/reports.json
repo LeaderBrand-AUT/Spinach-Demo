@@ -1,0 +1,26 @@
+[
+    {
+        "report_id": 0,
+        "date": "22.8.23",
+        "stage": "Winter Stage 2",
+        "moisture": 0.34
+    },
+    {
+        "report_id": 1,
+        "date": "23.8.23",
+        "stage": "Winter Stage 3",
+        "moisture": 0.38
+    },
+    {
+        "report_id": 2,
+        "date": "24.8.23",
+        "stage": "Winter Stage 3",
+        "moisture": 0.4
+    },
+    {
+        "report_id": 3,
+        "date": "25.8.23",
+        "stage": "Spring Stage 1",
+        "moisture": 0.37
+    }
+]

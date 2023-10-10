@@ -4,10 +4,12 @@
     {% include 'nav.html' %}
 
     <div class="dashboard-cards">
-        <div class="card">
-            <img src="{{ url_for('static', filename='icons/image.svg') }}" alt="image">
-            <h4>Reports</h4>
-        </div>
+        <a href="{{ url_for('reports') }}">
+            <div class="card">
+                <img src="{{ url_for('static', filename='icons/image.svg') }}" alt="image">
+                <h4>Reports</h4>
+            </div>
+        </a>
 
         <div class="card">
             <img src="{{ url_for('static', filename='icons/settings.svg') }}" alt="image">

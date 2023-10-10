@@ -1,7 +1,9 @@
 {% block content %}
     <nav>
-        {% if backButton == True %}
-            <img src="{{ url_for('static', filename='icons/backArrow.svg') }}" alt="back arrow" class="back-arrow">
+        {% if backButton %}
+            <a href="{{ url_for(backButton) }}">
+                <img src="{{ url_for('static', filename='icons/backArrow.svg') }}" alt="back arrow" class="back-arrow">
+            </a>
         {% endif %}
         <img src="{{url_for('static', filename='images/Logo.png')}}" alt="Leaderbrand Logo" class="logo">
     </nav>

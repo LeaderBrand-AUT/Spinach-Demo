@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'nav.html' %}
+
+    <div class="reports-content">
+        <h3>Reports</h3>
+        <ul>
+            <li id="first">
+                <div class="left">
+                    <p>Today's Live Data</p>
+                </div>
+                <div class="right">
+                    <p style="color: #F46B6B;">processing...</p>
+                    <a href="#" class="view-report">View Report</a>
+                </div>
+                <div style="clear: both;"></div>
+            </li>
+            {% for report in reports %}
+                {% if loop.last %}
+                    <li id="last">
+                {% else %}
+                    <li>
+                {% endif %}
+                    <div class="left">
+                        <p>{{ report['date'] }}</p>
+                    </div>
+                    <div class="right">
+                        <p>{{ report['stage'] }}</p>
+                        <a href="#" class="view-report">View Report</a>
+                    </div>
+                    <div style="clear: both;"></div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
