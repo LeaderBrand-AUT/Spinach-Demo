@@ -11,15 +11,19 @@
             </div>
         </a>
 
-        <div class="card">
-            <img src="{{ url_for('static', filename='icons/settings.svg') }}" alt="image">
-            <h4>Machine Settings</h4>
-        </div>
+        <a href="#">
+            <div class="card">
+                <img src="{{ url_for('static', filename='icons/settings.svg') }}" alt="image">
+                <h4>Machine Settings</h4>
+            </div>
+        </a>
 
-        <div class="card">
-            <img src="{{ url_for('static', filename='icons/camera.svg') }}" alt="image">
-            <h4>Live Data</h4>
-        </div>
+        <a href="{{ url_for('live_data') }}">
+            <div class="card">
+                <img src="{{ url_for('static', filename='icons/camera.svg') }}" alt="image">
+                <h4>Live Data</h4>
+            </div>
+        </a>
     </div>
 
     <a href="{{ url_for('login') }}"><button class="logout">Logout</button></a>

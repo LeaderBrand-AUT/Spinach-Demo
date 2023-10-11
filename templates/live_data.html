@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'nav.html' %}
+    
+    <div class="live-data-content">
+        <h3>Live Data Feed</h3>
+
+        <img src="{{url_for('static', filename='images/factory_floor.png')}}" alt="factory floor">
+        
+        <div class="current-prediction">
+            <p>Current prediction: <p class="red">Winter Stage III...</p></p>
+        </div>
+        
+        <div>
+            <p>422 <p class="red">Winter Stage III</p> predictions...</p>
+        </div>
+        <div>
+            <p>23 <p class="red">Winter Stage II</p> predictions...</p>
+        </div>
+    </div>
+{% endblock %}

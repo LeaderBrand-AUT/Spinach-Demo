@@ -20,6 +20,10 @@ a {
     text-decoration: none;
 }
 
+.red {
+    color: red;
+}
+
 nav {
     margin-top: 32px;
     width: 100%;
@@ -193,11 +197,6 @@ form .submit:hover {
     display: inline;
 }
 
-.report-content .red {
-    color: red;
-    display: inline;
-}
-
 .report-content h3 {
     margin-bottom: 64px;
 }
@@ -249,4 +248,29 @@ form .submit:hover {
     height: 20px;
     vertical-align: middle;
     margin-right: 12px;
+}
+
+/* LIVE DATA */
+.live-data-content {
+    width: 600px;
+    max-width: 80%;
+    margin-top: 64px;
+}
+
+.live-data-content h3 {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.live-data-content img {
+    max-width: 100%;
+}
+
+.live-data-content p {
+    display: inline;
+}
+
+.live-data-content .current-prediction {
+    display: block;
+    margin: 24px 0 32px 0;
 }
