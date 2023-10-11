@@ -2,25 +2,29 @@
     {
         "report_id": 0,
         "date": "22.8.23",
-        "stage": "Winter Stage 2",
-        "moisture": 0.34
+        "stage": "Winter Stage II",
+        "moisture": 0.34,
+        "recommendation": "Fast, Light"
     },
     {
         "report_id": 1,
         "date": "23.8.23",
-        "stage": "Winter Stage 3",
-        "moisture": 0.38
+        "stage": "Winter Stage III",
+        "moisture": 0.38,
+        "recommendation": "Fast, Light"
     },
     {
         "report_id": 2,
         "date": "24.8.23",
-        "stage": "Winter Stage 3",
-        "moisture": 0.4
+        "stage": "Winter Stage III",
+        "moisture": 0.4,
+        "recommendation": "Fast, Medium Weight"
     },
     {
         "report_id": 3,
         "date": "25.8.23",
-        "stage": "Spring Stage 1",
-        "moisture": 0.37
+        "stage": "Spring Stage I",
+        "moisture": 0.37,
+        "recommendation": "Slow, Light"
     }
 ]

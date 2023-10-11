@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'nav.html' %}
+
+    <div class="report-content">
+        <h3>View Report - {{ report.date }}</h3>
+        <div class="description">
+            <p>Today's produce classified as <p class="red">{{ report.stage }}</p>. The recommended machine setting profile is <p class="red">{{ report.recommendation }}</p>.</p>
+        </div>
+
+        <ul>
+            <li>1223 Frames classified as <p class="red">Winter Stage III</p>.</li>
+            <li>142 Frames classified as <p class="red">Winter Stage II</p>.</li>
+            <li>12 Frames classified as <p class="red">Winter Stage I</p>.</li>
+        </ul>
+
+        <p>Please verify these results and set factory machine settings accordingly.</p>
+
+        <div class="btns">
+            <a href="{{ url_for('reports') }}">Exit</a>
+            <button>
+                <img src="{{ url_for('static', filename='icons/download.svg') }}" alt="download" class="download">PDF
+            </button>
+        </div>
+    </div>
+
+{% endblock %}

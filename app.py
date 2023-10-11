@@ -25,4 +25,15 @@ def reports():
         print(report)
     return render_template('reports.html', reports=dummydata, backButton='dashboard')
 
+@app.route('/view_report')
+def view_report():
+    with open('./dummydata/reports.json', 'r') as myfile:
+        dummydata = json.load(myfile)
+
+    return render_template('view_report.html', report=dummydata[0], backButton='reports')
+
+@app.route('/live_data')
+def live_data():
+    return render_template('live_data.html', backButton='dashboard')
+
 app.run(host='0.0.0.0', port=81)

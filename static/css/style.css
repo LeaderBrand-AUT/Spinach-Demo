@@ -174,10 +174,79 @@ form .submit:hover {
     margin: 16px;
 }
 
-.view-report {
+.view-report-btn {
     margin-right: 16px;
     padding: 16px;
     border-radius: 12px;
     background: #4AB7AE;
     color: white;
+}
+
+/* View Report */
+.report-content {
+    width: 800px;
+    max-width: 80%;
+    margin-top: 64px;
+}
+
+.report-content p {
+    display: inline;
+}
+
+.report-content .red {
+    color: red;
+    display: inline;
+}
+
+.report-content h3 {
+    margin-bottom: 64px;
+}
+
+.report-content .description {
+    margin-bottom: 32px;
+}
+
+.report-content ul {
+    margin-bottom: 32px;
+    padding: 0;
+}
+
+.report-content li {
+    list-style-type: none;
+}
+
+.report-content .btns {
+    margin-top: 48px;
+}
+
+.report-content .btns a {
+    padding: 16px 32px;
+    margin-right: 16px;
+    color: white;
+    border-radius: 12px;
+    background: #F46B6B;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.report-content .btns button {
+    padding: 14px 32px;
+    margin-right: 16px;
+    color: white;
+    border-radius: 12px;
+    border: none;
+    background: #4AB7AE;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    
+}
+
+.report-content .btns button:hover {
+    cursor: pointer;
+}
+
+.report-content .download {
+    position: relative;
+    width: auto;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 12px;
 }
