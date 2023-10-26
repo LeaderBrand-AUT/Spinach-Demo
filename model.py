@@ -20,7 +20,7 @@ model_path = 'C:\\Users\\PC\\Documents\\GitHub\\RnD\\Spinach-Demo\\Model\\spinac
 
 def classifySpinach(filename):
     model = tf.keras.models.load_model(model_path)
-    img_loc = 'C:\\Users\\PC\\Documents\\GitHub\\RnD\\Spinach-Demo\\Images\\' + filename
+    img_loc = 'C:\\Users\\PC\\Documents\\GitHub\\RnD\\Spinach-Demo\\spinach_test\\' + filename
     img = tf.keras.preprocessing.image.load_img(img_loc, target_size=(img_height, img_width))
     
     img_array = tf.keras.utils.img_to_array(img)
@@ -29,11 +29,7 @@ def classifySpinach(filename):
     predictions = model.predict(img_array)
     score = tf.nn.softmax(predictions[0])
     
-    print("This image most likely belongs to {} with a {:.2f} percent confidence.".format(class_names[np.argmax(score)], 100 * np.max(score)))
+    ret = "This image most likely belongs to {} with a {:.2f} percent confidence.".format(class_names[np.argmax(score)], 100 * np.max(score))
+    return ret
     
-
-
-classifySpinach('1007.jpg')
-
-
 

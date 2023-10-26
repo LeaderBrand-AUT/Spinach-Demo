@@ -1,7 +1,14 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, flash
+from model import classifySpinach
 import json
 
+from werkzeug.utils import secure_filename
+import os
+
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'C:\\Users\\PC\\Documents\\GitHub\\RnD\\Spinach-Demo\\spinach_test'  # Replace with your image folder path
+app.secret_key = 'leaderbrand'
 
 @app.route('/')
 @app.route('/login', methods=('GET', 'POST'))
@@ -35,5 +42,30 @@ def view_report():
 @app.route('/live_data')
 def live_data():
     return render_template('live_data.html', backButton='dashboard')
+
+
+@app.route('/classifier', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            spinach = classifySpinach(filename)  
+            flash(spinach)
+            return redirect(request.url)
+    return render_template('classifier.html')  
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+
 
 app.run(host='0.0.0.0', port=81)
