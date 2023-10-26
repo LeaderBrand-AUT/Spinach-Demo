@@ -39,6 +39,26 @@ def view_report():
 
     return render_template('view_report.html', report=dummydata[0], backButton='reports')
 
+@app.route('/live_data', methods=['GET', 'POST'])
+def live_data():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            spinach = classifySpinach(filename)  
+            flash(spinach)
+            return redirect(request.url)
+    return render_template('live_data.html', backButton='dashboard')
+
+
+'''
 @app.route('/live_data')
 def live_data():
     return render_template('live_data.html', backButton='dashboard')
@@ -61,6 +81,7 @@ def upload_file():
             flash(spinach)
             return redirect(request.url)
     return render_template('classifier.html')  
+'''
 
 if __name__ == '__main__':
     app.run(debug=True)

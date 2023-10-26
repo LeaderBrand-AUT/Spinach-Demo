@@ -29,7 +29,7 @@ def classifySpinach(filename):
     predictions = model.predict(img_array)
     score = tf.nn.softmax(predictions[0])
     
-    ret = "This image most likely belongs to {} with a {:.2f} percent confidence.".format(class_names[np.argmax(score)], 100 * np.max(score))
+    ret = "This spinach leaf is {}, with a {:.2f} percent confidence.".format(class_names[np.argmax(score)], 100 * np.max(score))
     return ret
     
 
