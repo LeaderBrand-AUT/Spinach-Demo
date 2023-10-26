@@ -7,7 +7,7 @@ import os
 
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'C:\\Users\\PC\\Documents\\GitHub\\RnD\\Spinach-Demo\\spinach_test'  # Replace with your image folder path
+app.config['UPLOAD_FOLDER'] = 'spinach_test'  # Replace with your image folder path
 app.secret_key = 'leaderbrand'
 
 @app.route('/')

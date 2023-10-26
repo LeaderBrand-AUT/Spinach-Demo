@@ -16,11 +16,11 @@ from tensorflow.keras.applications.resnet50 import decode_predictions
 img_height = 180
 img_width = 180
 class_names = ['Fresh', 'Not Fresh', 'Not very Fresh', 'Very Fresh']
-model_path = 'C:\\Users\\PC\\Documents\\GitHub\\RnD\\Spinach-Demo\\Model\\spinach_model'
+model_path = 'model/spinach_model'
 
 def classifySpinach(filename):
     model = tf.keras.models.load_model(model_path)
-    img_loc = 'C:\\Users\\PC\\Documents\\GitHub\\RnD\\Spinach-Demo\\spinach_test\\' + filename
+    img_loc = 'spinach_test/' + filename
     img = tf.keras.preprocessing.image.load_img(img_loc, target_size=(img_height, img_width))
     
     img_array = tf.keras.utils.img_to_array(img)
