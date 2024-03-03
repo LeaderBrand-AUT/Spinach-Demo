@@ -1,5 +1,7 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, Response, render_template, redirect, request, url_for
+import cv2
 import json
+from camera import gen_frames
 
 app = Flask(__name__)
 
@@ -35,5 +37,9 @@ def view_report():
 @app.route('/live_data')
 def live_data():
     return render_template('live_data.html', backButton='dashboard')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 app.run(host='0.0.0.0', port=81)
