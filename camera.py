@@ -1,4 +1,5 @@
 import cv2
+import constants
 
 ip = '192.168.88.109'
 port = '8080'
@@ -27,8 +28,8 @@ def get_frame():
 
 def crop_frame(frame, y1, y2, x1, x2):
     # Constant, size of spinach leaf frames after processing.
-    RESIZE_WIDTH = 1000
-    RESIZE_HEIGHT = 1000
+    RESIZE_WIDTH = constants.IMAGE_WIDTH
+    RESIZE_HEIGHT = constants.IMAGE_HEIGHT
 
     cropped_frame = frame[y1:y2, x1:x2]
     resized_frame = cv2.resize(cropped_frame, (RESIZE_WIDTH, RESIZE_HEIGHT), interpolation=cv2.INTER_LINEAR)
