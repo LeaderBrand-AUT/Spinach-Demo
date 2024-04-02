@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 
 import pathlib
 
-import constants
+import scripts.preprocessing.constants as constants
 
 data_dir = pathlib.Path('./spinach_training/')
 data_dir = pathlib.Path(data_dir).with_suffix('')
