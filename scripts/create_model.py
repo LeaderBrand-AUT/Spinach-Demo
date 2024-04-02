@@ -7,6 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1W7zKxS8gQic4PTgipT6_BLfQox2o4fMI
 """
 
+import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 import PIL
@@ -21,6 +22,8 @@ import matplotlib.pyplot as plt
 
 import pathlib
 
+import constants
+
 data_dir = pathlib.Path('./spinach_training/')
 data_dir = pathlib.Path(data_dir).with_suffix('')
 
@@ -28,8 +31,8 @@ image_count = len(list(data_dir.glob('*/*.jpg')))
 print(image_count)
 
 batch_size = 32
-img_height = 180
-img_width = 180
+img_height = constants.IMAGE_HEIGHT
+img_width = constants.IMAGE_WIDTH
 
 train_ds = tf.keras.utils.image_dataset_from_directory(
   data_dir,
@@ -87,35 +90,19 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 model.summary()
 
-epochs=20
+epochs=1
 history = model.fit(
-    train_ds,
-    epochs=epochs,
-    validation_data=val_ds
-    )
-
-acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
-
-loss = history.history['loss']
-val_loss = history.history['val_loss']
-
-epochs_range = range(epochs)
-
-# save model
-model.save("spinach_model.keras")
-
-img_path = pathlib.Path('/spinach_training/test/1012.jpg')
-img = tf.keras.utils.load_img(img_path, target_size=(img_height, img_width))
-
-img_array = tf.keras.utils.img_to_array(img)
-img_array = tf.expand_dims(img_array, 0) # Create a batch
-
-predictions = model.predict(img_array)
-score = tf.nn.softmax(predictions[0])
-
-print(
-    "This image most likely belongs to {} with a {:.2f} percent confidence."
-    .format(class_names[np.argmax(score)], 100 * np.max(score))
+  train_ds,
+  epochs=epochs,
+  validation_data=val_ds
 )
 
+currentDate = str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
+modelPath = "models/spinach_model"
+
+# save model
+model.save(modelPath + ".keras")
+
+# save model under different file types
+model.save(modelPath + ".hdf5", "h5")
+model.save(modelPath + ".tf", "tf")
