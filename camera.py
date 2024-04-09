@@ -1,5 +1,5 @@
 import cv2
-import scripts.constants as constants
+import scripts.preprocessing.constants as constants
 
 ip = '192.168.88.109'
 port = '8080'
