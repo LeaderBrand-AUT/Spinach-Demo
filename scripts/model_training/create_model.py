@@ -22,8 +22,9 @@ import matplotlib.pyplot as plt
 
 import pathlib
 
-import constants # need to make this work using the constants file in the scripts/ directory
-
+from ..constants import *
+img_height = IMAGE_HEIGHT
+img_width = IMAGE_WIDTH
 
 data_dir = pathlib.Path('./spinach_training_processed/')
 data_dir = pathlib.Path(data_dir).with_suffix('')
@@ -32,8 +33,6 @@ image_count = len(list(data_dir.glob('*/*.jpg')))
 print(image_count)
 
 batch_size = 32
-img_height = constants.IMAGE_HEIGHT
-img_width = constants.IMAGE_WIDTH
 
 train_ds = tf.keras.utils.image_dataset_from_directory(
   data_dir,
