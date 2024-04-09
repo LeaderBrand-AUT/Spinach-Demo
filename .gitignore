@@ -2,6 +2,6 @@ venv
 videos/
 
 # large files
-models/
-spinach_training/
-spinach_training_processed/
+models/*
+spinach_training/*
+spinach_training_processed/*
