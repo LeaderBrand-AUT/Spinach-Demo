@@ -5,6 +5,8 @@
 
     <div class="reports-content">
         <h3>Reports</h3>
+        <button onclick="genReport()">Generate Report</button>
+        <div id="report"></div>
         <ul>
             <li id="first">
                 <div class="left">
@@ -34,4 +36,14 @@
             {% endfor %}
         </ul>
     </div>
+
+    <script>
+        async function genReport() {
+            const res = await fetch('/generate_report');
+            const report = await res.text()
+
+
+            document.getElementById('report').innerText = report;
+        }
+    </script>
 {% endblock %}

@@ -1,7 +1,8 @@
-from flask import Flask, Response, render_template, redirect, request, url_for
+from flask import Flask, Response, render_template, redirect, request, url_for, flash
 import cv2
 import json
-from camera import gen_frames
+from camera import gen_frames, get_frame
+from scripts.classifier import classifyFrame
 
 app = Flask(__name__)
 
@@ -34,6 +35,11 @@ def view_report():
 
     return render_template('view_report.html', report=dummydata[0], backButton='reports')
 
+@app.route('/generate_report')
+def generate_report():
+    report = classifyFrame(get_frame())
+    return report
+    
 @app.route('/live_data')
 def live_data():
     return render_template('live_data.html', backButton='dashboard')
