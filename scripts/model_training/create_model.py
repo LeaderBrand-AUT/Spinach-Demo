@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 import pathlib
 
 from ..constants import *
+
 img_height = IMAGE_HEIGHT
 img_width = IMAGE_WIDTH
 

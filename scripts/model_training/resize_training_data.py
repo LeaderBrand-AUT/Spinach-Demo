@@ -1,6 +1,6 @@
 from PIL import Image                                              
 import os, sys        
-import constants     
+from ..constants import *   
 import cv2          
 
 def resize_images_in_directory(input_dir, output_dir, new_width, new_height):
@@ -43,4 +43,4 @@ def resize_images_in_directory(input_dir, output_dir, new_width, new_height):
 input_directory = "spinach_training"
 output_directory = "spinach_training_processed"
 
-resize_images_in_directory(input_directory, output_directory, constants.IMAGE_WIDTH, constants.IMAGE_HEIGHT)
+resize_images_in_directory(input_directory, output_directory, IMAGE_WIDTH, IMAGE_HEIGHT)
