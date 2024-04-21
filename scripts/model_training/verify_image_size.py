@@ -1,5 +1,5 @@
 import os, cv2
-import constants
+from ..constants import *
 
 def check_image_dimensions(input_dir):
     # Iterate through input directory and its subdirectories
@@ -15,7 +15,7 @@ def check_image_dimensions(input_dir):
 
             height, width = img.shape[:2]
 
-            if (height != constants.IMAGE_HEIGHT or width != constants.IMAGE_WIDTH):
+            if (height != IMAGE_HEIGHT or width != IMAGE_WIDTH):
                 print(f"{img_path} is not the right size.")
 
 input_dir = "spinach_training_processed"
