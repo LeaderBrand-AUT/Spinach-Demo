@@ -3,6 +3,7 @@ import cv2
 import json
 from camera import gen_frames, get_frame
 from scripts.classifier import classifyFrame
+from scripts.preprocessor import preprocessor
 
 app = Flask(__name__)
 
@@ -37,7 +38,10 @@ def view_report():
 
 @app.route('/generate_report')
 def generate_report():
-    report = classifyFrame(get_frame())
+    frame = get_frame()
+    processed_frame = preprocessor(frame)
+    report = classifyFrame(processed_frame)
+    
     return report
     
 @app.route('/live_data')
