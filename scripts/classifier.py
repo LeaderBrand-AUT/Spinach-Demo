@@ -4,6 +4,8 @@ import tensorflow as tf
 import numpy as np
 
 from . import constants
+
+import cv2
 # set up to run every 30 seconds or so...
 
 # Takes in a frame and returns a success/error message. Writes output to a file
@@ -19,7 +21,7 @@ def classifyFrame(frame: bytes) -> str:
         # make predictions
         predictions = model.predict(img_array)
 
-        class_names = ['Fresh', 'Not Fresh', 'Not Very Fresh', 'Very Fresh']
+        class_names = ['Acceptable', 'Too Dry', 'Too Moist']
         score = tf.nn.softmax(predictions[0])
 
         currentDate = str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
@@ -30,6 +32,9 @@ def classifyFrame(frame: bytes) -> str:
 
         f.write(reportStr)
         f.close()
+
+        # Development, save image along with report
+        cv2.imwrite("classifications/images/" + currentDate + ".jpg", frame)
 
         return reportStr + "\n\n This report has been written to a txt file."
     except Exception as e:

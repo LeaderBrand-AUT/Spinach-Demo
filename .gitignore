@@ -8,3 +8,6 @@ spinach_training_processed/*
 
 # constants
 scripts/constants.py
+
+# reports
+classifications/*
