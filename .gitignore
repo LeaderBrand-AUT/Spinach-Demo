@@ -5,3 +5,6 @@ videos/
 models/*
 spinach_training/*
 spinach_training_processed/*
+
+# constants
+scripts/constants.py
