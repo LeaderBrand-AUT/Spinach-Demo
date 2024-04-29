@@ -25,7 +25,7 @@ def get_frame():
         return
     else:
         # temporarily return test input data
-        return cv2.imread('input_data/1.jpg')
+        return cv2.imread('input_data/acceptable2.jpg')
         return frame
 
 def crop_frame(frame, y1, y2, x1, x2):

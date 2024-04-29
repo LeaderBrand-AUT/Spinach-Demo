@@ -50,10 +50,16 @@ def process_images_in_directory(input_dir, output_dir):
                     if success:                
                         # process the image
                         processed_image = preprocessor(frame)
+                        flipped0_processed_image = cv2.flip(processed_image, 0)
+                        flipped1_processed_image = cv2.flip(processed_image, 1)
+                        flippedminus1_processed_image = cv2.flip(processed_image, -1)
                         
                         # Save the processed image
-                        output_path = os.path.join(output_subdir, file + "_frame" + str(frame_number) + '.jpg')
-                        cv2.imwrite(output_path, processed_image)
+                        output_path = os.path.join(output_subdir, file + "_frame" + str(frame_number))
+                        cv2.imwrite(output_path + '.jpg', processed_image)
+                        cv2.imwrite(output_path + 'flip0.jpg', flipped0_processed_image)
+                        cv2.imwrite(output_path + 'flip1.jpg', flipped1_processed_image)
+                        cv2.imwrite(output_path + 'flipminus1.jpg', flippedminus1_processed_image)
                         print(f"Processed image saved: {output_path}")
                     
                     # Move to the next second
