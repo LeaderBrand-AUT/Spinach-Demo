@@ -6,10 +6,13 @@
     <div class="live-data-content">
         <h3>Live Data Feed</h3>
 
+        <button onclick="genReport()">Generate Report</button>
+        <div id="report"></div>
+
         <img src="{{ url_for('static', filename='images/1.jpg') }}" alt="test data">
         <!-- <img src="{{ url_for('video_feed') }}" alt="factory floor"> -->
         
-        <div class="current-prediction">
+        <!-- <div class="current-prediction">
             <p>Current prediction: <p class="red">Winter Stage III...</p></p>
         </div>
         
@@ -18,6 +21,16 @@
         </div>
         <div>
             <p>23 <p class="red">Winter Stage II</p> predictions...</p>
-        </div>
+        </div> -->
     </div>
+
+    <script>
+        async function genReport() {
+            const res = await fetch('/generate_report');
+            const report = await res.text()
+
+
+            document.getElementById('report').innerText = report;
+        }
+    </script>
 {% endblock %}
