@@ -7,30 +7,42 @@
         <h3>Live Data Feed</h3>
 
         <button onclick="genReport()">Generate Report</button>
-        <div id="report"></div>
+        
 
-        <img src="{{ url_for('static', filename='images/1.jpg') }}" alt="test data">
+        <div id="live_data">
+            <img src="{{ url_for('static', filename='images/1.jpg') }}" alt="test data">
+        </div>
+        <div id="preprocessing">
+            <div id="report"></div>
+            <div id="resized_image">
+                <p>Preprocessing Step 1: Resize Image</p>
+            </div>
+            <div id="white_balanced_image">
+                <p>Preprocessing Step 2: Apply white balancing & adjust brightness</p>
+            </div>
+        </div>
         <!-- <img src="{{ url_for('video_feed') }}" alt="factory floor"> -->
-        
-        <!-- <div class="current-prediction">
-            <p>Current prediction: <p class="red">Winter Stage III...</p></p>
-        </div>
-        
-        <div>
-            <p>422 <p class="red">Winter Stage III</p> predictions...</p>
-        </div>
-        <div>
-            <p>23 <p class="red">Winter Stage II</p> predictions...</p>
-        </div> -->
+
     </div>
 
     <script>
         async function genReport() {
             const res = await fetch('/generate_report');
-            const report = await res.text()
+            const report = await res.json()
 
+            document.getElementById('report').innerText = report.report;
+            
+            // create resized image element
+            const resizedImageElement = document.createElement("img");
+            let parentElement = document.getElementById("resized_image");
+            resizedImageElement.src = 'data:image/jpeg;base64,' + report.resized_image;
+            parentElement.appendChild(resizedImageElement);
 
-            document.getElementById('report').innerText = report;
+            // create white balanced image element
+            const whiteBalancedImageElement = document.createElement("img");
+            parentElement = document.getElementById("white_balanced_image");
+            whiteBalancedImageElement.src = 'data:image/jpeg;base64,' + report.white_balanced_image;
+            parentElement.appendChild(whiteBalancedImageElement);
         }
     </script>
 {% endblock %}
