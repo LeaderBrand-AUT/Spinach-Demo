@@ -4,12 +4,34 @@ import json
 from camera import gen_frames, get_frame
 from scripts.classifier import classifyFrame
 from scripts.preprocessor import preprocessor
+from scripts.report import db
+
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Enum
+
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://leaderbrand:password@localhost:5342/report_database'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy()
+
+db.init_app(app)
+
+from scripts.report import Report
+
+with app.app_context():
+    try:
+        db.create_all()
+        print("Tables created successfully.")
+    except Exception as e:
+        print(f"Error creating tables: {e}")
 
 @app.route('/')
 @app.route('/login', methods=('GET', 'POST'))
 def login():
+    # print("Creating database tables...")
+    # db.create_all()
+    # print("Database tables should be created.")
     if request.method == 'POST':
         return redirect(url_for('dashboard'))
 
