@@ -1,23 +1,16 @@
 from flask import Flask, Response, render_template, redirect, request, url_for, flash
-import cv2
 import json
 from camera import gen_frames, get_frame
 from scripts.classifier import classifyFrame
 from scripts.preprocessor import preprocessor
-from scripts.report import db
-
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Enum
-
+from scripts.database import db
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://leaderbrand:password@localhost:5342/report_database'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy()
 
 db.init_app(app)
-
-from scripts.report import Report
 
 with app.app_context():
     try:

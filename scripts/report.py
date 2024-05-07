@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Enum
-
-db = SQLAlchemy()
+from .database import db
 
 class Report(db.Model):
     time = db.Column(db.DateTime, primary_key=True)
