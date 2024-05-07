@@ -34,7 +34,7 @@ def classifyFrame(frame: bytes) -> str:
         currentDate = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         reportStr = "Report {}:\n\n This image most likely belongs to {} with a {:.2f} percent confidence.".format(currentDate, class_names[np.argmax(score)], 100 * np.max(score))
 
-        # Write some output to file
+        # Write some output to file (DOES NOT WORK WITH ':' IN FILENAME (FROM currentDate) - Logan)
         # f = open("./classifications/" + currentDate + "_classification.txt", "x")
 
         # f.write(reportStr)
