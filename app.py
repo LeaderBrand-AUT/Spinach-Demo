@@ -1,9 +1,14 @@
+import base64
+from io import BytesIO
+from PIL import Image
 from flask import Flask, Response, render_template, redirect, request, url_for, flash
 import json
+import cv2
 from camera import gen_frames, get_frame
 from scripts.classifier import classifyFrame
-from scripts.preprocessor import preprocessor
 from scripts.database import db
+import scripts.preprocessing.image_resize as resize_frame
+import scripts.preprocessing.white_balance as white_balance
 
 app = Flask(__name__)
 
@@ -54,10 +59,27 @@ def view_report():
 @app.route('/generate_report')
 def generate_report():
     frame = get_frame()
-    processed_frame = preprocessor(frame)
-    report = classifyFrame(processed_frame)
+    resized_frame = resize_frame.resize_frame(frame)
+    white_balanced = white_balance.white_balancing(resized_frame)
     
-    return report
+    report = classifyFrame(white_balanced)
+
+    # Encode image data as base64-encoded string
+    resized_frame_buffer = BytesIO()
+    Image.fromarray(cv2.cvtColor(resized_frame, cv2.COLOR_BGR2RGB), mode='RGB').save(resized_frame_buffer, format="JPEG")
+    resized_frame_base64 = base64.b64encode(resized_frame_buffer.getvalue()).decode("utf-8")
+
+    white_balanced_buffer = BytesIO()
+    Image.fromarray(cv2.cvtColor(white_balanced, cv2.COLOR_BGR2RGB), mode='RGB').save(white_balanced_buffer, format="JPEG")
+    white_balanced_base64 = base64.b64encode(white_balanced_buffer.getvalue()).decode("utf-8")
+
+    classification = {
+        "resized_image": resized_frame_base64,
+        "white_balanced_image": white_balanced_base64,
+        "report": report
+    }
+
+    return classification
     
 @app.route('/live_data')
 def live_data():

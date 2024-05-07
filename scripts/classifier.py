@@ -52,7 +52,15 @@ def classifyFrame(frame: bytes) -> str:
         db.session.add(new_report)
         db.session.commit()
 
-        return reportStr + "\n\n This report has been written to a txt file."
+        report = {
+            "report_text": reportStr,
+            "time": currentDate,
+            "accuracy": float(np.max(score)),
+            "moisture_level": class_names[np.argmax(score)]
+        }
+
+        return report
+    
     except Exception as e:
         print('An error occured: ' + str(e))
 

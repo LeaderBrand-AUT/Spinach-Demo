@@ -17,5 +17,5 @@ def white_balancing(frame, brightness_factor=BRIGHTNESS_FACTOR):
     
     # Convert the floating-point image to 8-bit unsigned byte format
     final_image = img_as_ubyte(adjusted_frame)
-    
+
     return final_image
