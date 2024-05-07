@@ -2,19 +2,34 @@ import base64
 from io import BytesIO
 from PIL import Image
 from flask import Flask, Response, render_template, redirect, request, url_for, flash
-import cv2
 import json
+import cv2
 from camera import gen_frames, get_frame
 from scripts.classifier import classifyFrame
+from scripts.database import db
 import scripts.preprocessing.image_resize as resize_frame
 import scripts.preprocessing.white_balance as white_balance
-import numpy as np
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://leaderbrand:password@localhost:5342/report_database'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
+
+with app.app_context():
+    try:
+        db.create_all()
+        print("Tables created successfully.")
+    except Exception as e:
+        print(f"Error creating tables: {e}")
 
 @app.route('/')
 @app.route('/login', methods=('GET', 'POST'))
 def login():
+    # print("Creating database tables...")
+    # db.create_all()
+    # print("Database tables should be created.")
     if request.method == 'POST':
         return redirect(url_for('dashboard'))
 
@@ -46,9 +61,6 @@ def generate_report():
     frame = get_frame()
     resized_frame = resize_frame.resize_frame(frame)
     white_balanced = white_balance.white_balancing(resized_frame)
-    cv2.imwrite('test/test_file.jpg', frame)
-    cv2.imwrite('test/test_file1.jpg', resized_frame)
-    cv2.imwrite('test/test_file2.jpg', white_balanced)
     
     report = classifyFrame(white_balanced)
 

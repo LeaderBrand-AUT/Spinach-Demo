@@ -1,12 +1,19 @@
 import datetime
-
 import tensorflow as tf
 import numpy as np
 
 from . import constants
+from .database import db
+from .report import Report
 
 import cv2
 # set up to run every 30 seconds or so...
+
+#these didnt work for me - matei
+# f = open("classifications/" + currentDate + "_classification.txt", "x")
+# model = tf.keras.models.load_model("./models/" + constants.CURRENT_MODEL)
+# f = open("classifications/" + currentDate + "_classification.txt", "x")
+
 
 # Takes in a frame and returns a success/error message. Writes output to a file
 def classifyFrame(frame: bytes) -> str:
@@ -24,17 +31,26 @@ def classifyFrame(frame: bytes) -> str:
         class_names = ['Acceptable', 'Too Dry', 'Too Moist']
         score = tf.nn.softmax(predictions[0])
 
-        currentDate = str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
+        currentDate = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         reportStr = "Report {}:\n\n This image most likely belongs to {} with a {:.2f} percent confidence.".format(currentDate, class_names[np.argmax(score)], 100 * np.max(score))
 
-        # # Write some output to file
-        # f = open("classifications/" + currentDate + "_classification.txt", "x")
+        # Write some output to file (DOES NOT WORK WITH ':' IN FILENAME (FROM currentDate) - Logan)
+        # f = open("./classifications/" + currentDate + "_classification.txt", "x")
 
         # f.write(reportStr)
         # f.close()
 
         # # Development, save image along with report
-        # cv2.imwrite("classifications/images/" + currentDate + ".jpg", frame)
+        # cv2.imwrite("./classifications/images/" + currentDate + ".jpg", frame)
+
+        # Add report to database
+        new_report = Report(
+            time=currentDate,
+            accuracy=float(np.max(score)),
+            moisture_level=class_names[np.argmax(score)]
+        )
+        db.session.add(new_report)
+        db.session.commit()
 
         report = {
             "report_text": reportStr,
@@ -49,5 +65,3 @@ def classifyFrame(frame: bytes) -> str:
         print('An error occured: ' + str(e))
 
         return "There was an error generating the report."
-        
-    
