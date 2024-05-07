@@ -4,20 +4,77 @@
     {% include 'nav.html' %}
     
     <div class="live-data-content">
-        <h3>Live Data Feed</h3>
-
-        <img src="{{ url_for('static', filename='images/1.jpg') }}" alt="test data">
-        <!-- <img src="{{ url_for('video_feed') }}" alt="factory floor"> -->
         
-        <div class="current-prediction">
-            <p>Current prediction: <p class="red">Winter Stage III...</p></p>
-        </div>
-        
-        <div>
-            <p>422 <p class="red">Winter Stage III</p> predictions...</p>
-        </div>
-        <div>
-            <p>23 <p class="red">Winter Stage II</p> predictions...</p>
-        </div>
+        <div id="live_data">
+            <h3>Live Data Feed</h3>
+            <img src="{{ url_for('video_feed') }}" alt="factory floor">
     </div>
+        <div id="preprocessing">
+            <button onclick="genReport()" class="generate-report-btn">Generate Report</button>
+
+            <table class="report">
+                <tr>
+                    <th>Date & Time</th>
+                    <th>Moisture Level</th>
+                    <th>Accuracy</th>
+                </tr>
+                <tr>
+                    <td id="report_datetime"></td>
+                    <td id="report_moisture"></td>
+                    <td id="report_accuracy"></td>
+                </tr>
+            </table>
+            <div class="preprocessing_images">
+                <div id="resized_image_parent">
+                    <p>Preprocessing Step 1: Resize Image</p>
+                </div>
+                <div id="white_balanced_image_parent">
+                    <p>Preprocessing Step 2: Apply white balancing & adjust brightness</p>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <script>
+        async function genReport() {
+            const res = await fetch('/generate_report')
+            const report = await res.json()
+
+            document.getElementById('report_datetime').innerText = report.report.time;
+            document.getElementById('report_moisture').innerText = report.report.moisture_level;
+            document.getElementById('report_accuracy').innerText = report.report.accuracy
+
+            genReportImages(report)
+        }
+
+        function genReportImages(report) {
+            // remove any images currently displayed
+            let resizedImageElement = document.getElementById('resized_image');;
+            let whiteBalancedImageElement = document.getElementById('white_balanced_image');
+            if (resizedImageElement) {
+                resizedImageElement.remove()
+            }
+            if (whiteBalancedImageElement) {
+                whiteBalancedImageElement.remove()
+            }
+
+            // create resized image element
+            resizedImageElement = document.createElement("img");
+            let parentElement = document.getElementById("resized_image_parent");
+            resizedImageElement.src = 'data:image/jpeg;base64,' + report.resized_image;
+            resizedImageElement.id = 'resized_image';
+            parentElement.appendChild(resizedImageElement);
+            parentElement.style.display = 'inline';
+
+            // create white balanced image element
+            whiteBalancedImageElement = document.createElement("img");
+            parentElement = document.getElementById("white_balanced_image_parent");
+            whiteBalancedImageElement.src = 'data:image/jpeg;base64,' + report.white_balanced_image;
+            whiteBalancedImageElement.id = 'white_balanced_image';
+            parentElement.appendChild(whiteBalancedImageElement);
+            parentElement.style.display = 'inline';
+        }
+    </script>
 {% endblock %}

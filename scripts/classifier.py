@@ -27,16 +27,24 @@ def classifyFrame(frame: bytes) -> str:
         currentDate = str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
         reportStr = "Report {}:\n\n This image most likely belongs to {} with a {:.2f} percent confidence.".format(currentDate, class_names[np.argmax(score)], 100 * np.max(score))
 
-        # Write some output to file
-        f = open("classifications/" + currentDate + "_classification.txt", "x")
+        # # Write some output to file
+        # f = open("classifications/" + currentDate + "_classification.txt", "x")
 
-        f.write(reportStr)
-        f.close()
+        # f.write(reportStr)
+        # f.close()
 
-        # Development, save image along with report
-        cv2.imwrite("classifications/images/" + currentDate + ".jpg", frame)
+        # # Development, save image along with report
+        # cv2.imwrite("classifications/images/" + currentDate + ".jpg", frame)
 
-        return reportStr + "\n\n This report has been written to a txt file."
+        report = {
+            "report_text": reportStr,
+            "time": currentDate,
+            "accuracy": float(np.max(score)),
+            "moisture_level": class_names[np.argmax(score)]
+        }
+
+        return report
+    
     except Exception as e:
         print('An error occured: ' + str(e))
 
