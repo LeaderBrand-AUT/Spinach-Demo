@@ -296,3 +296,13 @@ form .submit:hover {
     display: none;
 }
 
+.report, .report th, .report td {
+    border: 1px solid black;
+    text-align: left;
+}
+
+.report th {
+    min-width: 248px;
+    padding: 4px 8px;
+}
+

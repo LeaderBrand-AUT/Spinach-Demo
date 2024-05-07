@@ -7,7 +7,7 @@ port = '8080'
 rtspLink = 'http://takemotopiano.aa1.netvolante.jp:8190/nphMotionJpeg?Resolution=640x480&Quality=Standard&Framerate=30'
 
 camera = cv2.VideoCapture(rtspLink)
-camera = cv2.VideoCapture('input_data/acceptable.MOV')
+camera = cv2.VideoCapture('input_data/acceptable.mp4')
 
 def gen_frames():
     while True:

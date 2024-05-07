@@ -12,7 +12,18 @@
         <div id="preprocessing">
             <button onclick="genReport()" class="generate-report-btn">Generate Report</button>
 
-            <div id="report"></div>
+            <table class="report">
+                <tr>
+                    <th>Date & Time</th>
+                    <th>Moisture Level</th>
+                    <th>Accuracy</th>
+                </tr>
+                <tr>
+                    <td id="report_datetime"></td>
+                    <td id="report_moisture"></td>
+                    <td id="report_accuracy"></td>
+                </tr>
+            </table>
             <div class="preprocessing_images">
                 <div id="resized_image_parent">
                     <p>Preprocessing Step 1: Resize Image</p>
@@ -31,8 +42,14 @@
             const res = await fetch('/generate_report')
             const report = await res.json()
 
-            document.getElementById('report').innerText = report.report;
-            
+            document.getElementById('report_datetime').innerText = report.report.time;
+            document.getElementById('report_moisture').innerText = report.report.moisture_level;
+            document.getElementById('report_accuracy').innerText = report.report.accuracy
+
+            genReportImages(report)
+        }
+
+        function genReportImages(report) {
             // remove any images currently displayed
             let resizedImageElement = document.getElementById('resized_image');;
             let whiteBalancedImageElement = document.getElementById('white_balanced_image');
