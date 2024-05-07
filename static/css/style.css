@@ -263,7 +263,6 @@ form .submit:hover {
 
 .live-data-content h3 {
     text-align: center;
-    margin-bottom: 32px;
 }
 
 .live-data-content img {
@@ -276,7 +275,7 @@ form .submit:hover {
     display: block;
     width: 200px;
     padding: 16px 32px;
-    margin: 16px auto 16px auto;
+    margin: 64px auto 16px 0;
     border-radius: 12px;
     background: #4AB7AE; 
     color: white;
@@ -286,6 +285,14 @@ form .submit:hover {
 
 .preprocessing_images {
     display: flex;
-    justify-content: space-between;
+}
+
+#resized_image_parent {
+    display: none;
+    margin-right: 10%;
+}
+
+#white_balanced_image_parent {
+    display: none;
 }
 

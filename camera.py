@@ -7,11 +7,17 @@ port = '8080'
 rtspLink = 'http://takemotopiano.aa1.netvolante.jp:8190/nphMotionJpeg?Resolution=640x480&Quality=Standard&Framerate=30'
 
 camera = cv2.VideoCapture(rtspLink)
+camera = cv2.VideoCapture('input_data/acceptable.MOV')
 
 def gen_frames():
     while True:
         success, frame = camera.read()
         if not success:
+            # If video file reached end, reset to 0
+            camera.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            continue
+
+            # if live feed
             break
         else:
             ret, buffer = cv2.imencode('.jpg', frame)
@@ -24,8 +30,6 @@ def get_frame():
     if not success:
         return
     else:
-        # temporarily return test input data
-        return cv2.imread('input_data/1.jpg')
         return frame
 
 def crop_frame(frame, y1, y2, x1, x2):

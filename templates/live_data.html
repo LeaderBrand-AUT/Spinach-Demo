@@ -6,45 +6,58 @@
     <div class="live-data-content">
         
         <div id="live_data">
-            <img src="{{ url_for('static', filename='images/1.jpg') }}" alt="test data">
-        </div>
-        <div id="preprocessing">
             <h3>Live Data Feed</h3>
+            <img src="{{ url_for('video_feed') }}" alt="factory floor">
+    </div>
+        <div id="preprocessing">
             <button onclick="genReport()" class="generate-report-btn">Generate Report</button>
 
             <div id="report"></div>
             <div class="preprocessing_images">
-                <div id="resized_image">
+                <div id="resized_image_parent">
                     <p>Preprocessing Step 1: Resize Image</p>
                 </div>
-                <div id="white_balanced_image">
+                <div id="white_balanced_image_parent">
                     <p>Preprocessing Step 2: Apply white balancing & adjust brightness</p>
                 </div>
             </div>
             
         </div>
-        <!-- <img src="{{ url_for('video_feed') }}" alt="factory floor"> -->
 
     </div>
 
     <script>
         async function genReport() {
-            const res = await fetch('/generate_report');
+            const res = await fetch('/generate_report')
             const report = await res.json()
 
             document.getElementById('report').innerText = report.report;
             
+            // remove any images currently displayed
+            let resizedImageElement = document.getElementById('resized_image');;
+            let whiteBalancedImageElement = document.getElementById('white_balanced_image');
+            if (resizedImageElement) {
+                resizedImageElement.remove()
+            }
+            if (whiteBalancedImageElement) {
+                whiteBalancedImageElement.remove()
+            }
+
             // create resized image element
-            const resizedImageElement = document.createElement("img");
-            let parentElement = document.getElementById("resized_image");
+            resizedImageElement = document.createElement("img");
+            let parentElement = document.getElementById("resized_image_parent");
             resizedImageElement.src = 'data:image/jpeg;base64,' + report.resized_image;
+            resizedImageElement.id = 'resized_image';
             parentElement.appendChild(resizedImageElement);
+            parentElement.style.display = 'inline';
 
             // create white balanced image element
-            const whiteBalancedImageElement = document.createElement("img");
-            parentElement = document.getElementById("white_balanced_image");
+            whiteBalancedImageElement = document.createElement("img");
+            parentElement = document.getElementById("white_balanced_image_parent");
             whiteBalancedImageElement.src = 'data:image/jpeg;base64,' + report.white_balanced_image;
+            whiteBalancedImageElement.id = 'white_balanced_image';
             parentElement.appendChild(whiteBalancedImageElement);
+            parentElement.style.display = 'inline';
         }
     </script>
 {% endblock %}
