@@ -18,10 +18,17 @@
             </div>
         </a> -->
 
-        <a href="{{ url_for('live_data') }}">
+        <a href="{{ url_for('demo_from_file') }}">
             <div class="card">
                 <img src="{{ url_for('static', filename='icons/camera.svg') }}" alt="image">
-                <h4>Live Data</h4>
+                <h4>App Demo (From File)</h4>
+            </div>
+        </a>
+
+        <a href="{{ url_for('demo_live_feed') }}">
+            <div class="card">
+                <img src="{{ url_for('static', filename='icons/camera.svg') }}" alt="image">
+                <h4>App Demo (Live Feed)</h4>
             </div>
         </a>
     </div>

@@ -7,7 +7,7 @@
         
         <div id="live_data">
             <h3>Live Data Feed</h3>
-            <img src="{{ url_for('video_feed') }}" alt="factory floor">
+            <img src="{{ url_for('file_video_feed') }}" alt="factory floor">
     </div>
         <div id="preprocessing">
             <button onclick="genReport()" class="generate-report-btn">Generate Report</button>
@@ -39,7 +39,7 @@
 
     <script>
         async function genReport() {
-            const res = await fetch('/generate_report')
+            const res = await fetch('/generate_report?source=from_file')
             const report = await res.json()
 
             document.getElementById('report_datetime').innerText = report.report.time;
