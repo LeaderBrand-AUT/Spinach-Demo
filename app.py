@@ -1,10 +1,11 @@
 import base64
 from io import BytesIO
 from PIL import Image
-from flask import Flask, Response, render_template, redirect, request, url_for, flash
+from flask import Flask, Response, render_template, redirect, request, url_for, abort
 import json
 import cv2
-from camera import gen_frames, get_frame
+import live_feed
+import video_from_file
 from scripts.classifier import classifyFrame
 from scripts.database import db
 import scripts.preprocessing.image_resize as resize_frame
@@ -27,9 +28,6 @@ with app.app_context():
 @app.route('/')
 @app.route('/login', methods=('GET', 'POST'))
 def login():
-    # print("Creating database tables...")
-    # db.create_all()
-    # print("Database tables should be created.")
     if request.method == 'POST':
         return redirect(url_for('dashboard'))
 
@@ -56,9 +54,21 @@ def view_report():
 
     return render_template('view_report.html', report=dummydata[0], backButton='reports')
 
+# Requires a 'source' URL param with either 'live_feed' or 'from_file' as the value.
 @app.route('/generate_report')
 def generate_report():
-    frame = get_frame()
+    source = request.args.get('source')
+
+    if (source == 'live_feed'):
+        frame = live_feed.get_frame()
+    elif (source == 'from_file'):
+        frame = video_from_file.get_frame()
+    else:
+        abort(400, 'Invalid URL params: source parameter equal "live_feed" or "from_file"')
+
+    if frame is None:
+        abort(500, 'Unable to retrieve frame from source')
+    
     resized_frame = resize_frame.resize_frame(frame)
     white_balanced = white_balance.white_balancing(resized_frame)
     
@@ -81,12 +91,23 @@ def generate_report():
 
     return classification
     
-@app.route('/live_data')
-def live_data():
-    return render_template('live_data.html', backButton='dashboard')
+# Live video feed
+@app.route('/demo_live_feed')
+def demo_live_feed():
+    return render_template('demo_live_feed.html', backButton='dashboard')
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/live_video_feed')
+def live_video_feed():
+    return Response(live_feed.gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+# Example video feed from file
+@app.route('/demo_from_file')
+def demo_from_file():
+    return render_template('demo_from_file.html', backButton='dashboard')
+
+@app.route('/file_video_feed')
+def file_video_feed():
+    return Response(video_from_file.gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 app.run(host='0.0.0.0', port=81)
