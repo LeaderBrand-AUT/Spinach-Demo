@@ -49,8 +49,8 @@ def classifyFrame(frame: bytes) -> str:
             accuracy=float(np.max(score)),
             moisture_level=class_names[np.argmax(score)]
         )
-        db.session.add(new_report)
-        db.session.commit()
+        # db.session.add(new_report)
+        # db.session.commit()
 
         report = {
             "report_text": reportStr,
@@ -58,6 +58,8 @@ def classifyFrame(frame: bytes) -> str:
             "accuracy": float(np.max(score)),
             "moisture_level": class_names[np.argmax(score)]
         }
+
+        print(report)
 
         return report
     
