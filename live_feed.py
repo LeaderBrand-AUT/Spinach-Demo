@@ -23,3 +23,6 @@ def get_frame():
         return
     else:
         return frame
+    
+def get_clip():
+    print('to be implemented')

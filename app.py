@@ -8,9 +8,10 @@ import live_feed
 import video_from_file
 from scripts.classifier import classifyFrame
 from scripts.database import db
-from scripts.constants import IMAGE_HEIGHT, IMAGE_WIDTH, CURRENT_MODEL
+from scripts.constants import IMAGE_HEIGHT, IMAGE_WIDTH, CURRENT_MODEL, STREAM_FPS
 import scripts.preprocessing.image_resize as resize_frame
 import scripts.preprocessing.white_balance as white_balance
+import scripts.preprocessing.get_least_blurry as get_least_blurry
 
 app = Flask(__name__)
 
@@ -61,14 +62,18 @@ def generate_report():
     source = request.args.get('source')
 
     if (source == 'live_feed'):
-        frame = live_feed.get_frame()
+        clip = live_feed.get_clip()
     elif (source == 'from_file'):
-        frame = video_from_file.get_frame()
+        clip = video_from_file.get_clip()
     else:
         abort(400, 'Invalid URL params: source parameter equal "live_feed" or "from_file"')
 
-    if frame is None:
+    if clip is None:
         abort(500, 'Unable to retrieve frame from source')
+
+    frame = get_least_blurry.get_least_blurry(clip)
+    if frame is None:
+        abort(500, 'Failed to get least blurry frame, please try again')
     
     resized_frame = resize_frame.resize_frame(frame)
     white_balanced = white_balance.white_balancing(resized_frame)
@@ -114,5 +119,6 @@ def file_video_feed():
 # Show information about current build
 print(f"Current model: {CURRENT_MODEL}")
 print(f"Input image shape: {IMAGE_WIDTH}px x {IMAGE_HEIGHT}px")
+print(f"Stream FPS: {STREAM_FPS}")
 
 app.run(host='0.0.0.0', port=81)
