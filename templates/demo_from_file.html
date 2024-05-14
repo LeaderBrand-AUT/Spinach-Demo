@@ -12,16 +12,11 @@
         <div id="preprocessing">
             <button onclick="genReport()" class="generate-report-btn">Generate Report</button>
 
-            <table class="report">
+            <table class="report" id="reports-table">
                 <tr>
                     <th>Date & Time</th>
                     <th>Moisture Level</th>
                     <th>Accuracy</th>
-                </tr>
-                <tr>
-                    <td id="report_datetime"></td>
-                    <td id="report_moisture"></td>
-                    <td id="report_accuracy"></td>
                 </tr>
             </table>
             <div class="preprocessing_images">
@@ -42,9 +37,24 @@
             const res = await fetch('/generate_report?source=from_file')
             const report = await res.json()
 
-            document.getElementById('report_datetime').innerText = report.report.time;
-            document.getElementById('report_moisture').innerText = report.report.moisture_level;
-            document.getElementById('report_accuracy').innerText = report.report.accuracy
+            console.log(report)
+
+            // create report cells
+            const timeCell = document.createElement("td");
+            timeCell.innerText = report.report.time;
+
+            const moistureCell = document.createElement("td");
+            moistureCell.innerText = report.report.moisture_level;
+
+            const accuracyCell = document.createElement("td");
+            accuracyCell.innerText = report.report.accuracy;
+
+            // create new row
+            const newRow = document.createElement("tr");
+            newRow.append(timeCell, moistureCell, accuracyCell);
+
+            // append to table
+            document.getElementById("reports-table").append(newRow);
 
             genReportImages(report)
         }

@@ -8,6 +8,7 @@ import live_feed
 import video_from_file
 from scripts.classifier import classifyFrame
 from scripts.database import db
+from scripts.constants import IMAGE_HEIGHT, IMAGE_WIDTH, CURRENT_MODEL
 import scripts.preprocessing.image_resize as resize_frame
 import scripts.preprocessing.white_balance as white_balance
 
@@ -109,5 +110,9 @@ def demo_from_file():
 @app.route('/file_video_feed')
 def file_video_feed():
     return Response(video_from_file.gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+# Show information about current build
+print(f"Current model: {CURRENT_MODEL}")
+print(f"Input image shape: {IMAGE_WIDTH}px x {IMAGE_HEIGHT}px")
 
 app.run(host='0.0.0.0', port=81)
