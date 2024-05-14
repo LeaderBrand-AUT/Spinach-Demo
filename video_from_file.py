@@ -43,4 +43,3 @@ def get_clip():
     clip_array = np.array(clip)
 
     return clip_array
-

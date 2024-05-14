@@ -61,6 +61,7 @@ def view_report():
 def generate_report():
     source = request.args.get('source')
 
+    # use URL param to get clip from relevant source
     if (source == 'live_feed'):
         clip = live_feed.get_clip()
     elif (source == 'from_file'):
@@ -70,17 +71,26 @@ def generate_report():
 
     if clip is None:
         abort(500, 'Unable to retrieve frame from source')
+    
+    # save gif of clip to be displayed on frontend
+    # to be implemented
 
+    # get least blurry frame from clip
     frame = get_least_blurry.get_least_blurry(clip)
     if frame is None:
         abort(500, 'Failed to get least blurry frame, please try again')
     
+    least_blurry_frame = frame
     resized_frame = resize_frame.resize_frame(frame)
     white_balanced = white_balance.white_balancing(resized_frame)
     
     report = classifyFrame(white_balanced)
 
     # Encode image data as base64-encoded string
+    least_blurry_frame_buffer = BytesIO()
+    Image.fromarray(cv2.cvtColor(least_blurry_frame, cv2.COLOR_BGR2RGB), mode='RGB').save(least_blurry_frame_buffer, format="JPEG")
+    least_blurry_frame_base64 = base64.b64encode(least_blurry_frame_buffer.getvalue()).decode("utf-8")
+
     resized_frame_buffer = BytesIO()
     Image.fromarray(cv2.cvtColor(resized_frame, cv2.COLOR_BGR2RGB), mode='RGB').save(resized_frame_buffer, format="JPEG")
     resized_frame_base64 = base64.b64encode(resized_frame_buffer.getvalue()).decode("utf-8")
@@ -90,6 +100,7 @@ def generate_report():
     white_balanced_base64 = base64.b64encode(white_balanced_buffer.getvalue()).decode("utf-8")
 
     classification = {
+        "least_blurry_frame": least_blurry_frame_base64,
         "resized_image": resized_frame_base64,
         "white_balanced_image": white_balanced_base64,
         "report": report
