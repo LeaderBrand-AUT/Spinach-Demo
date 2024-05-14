@@ -1,10 +1,7 @@
 import cv2
 from scripts.constants import *
 
-ip = '192.168.88.109'
-port = '8080'
-
-RTSP_LINK = 'http://158.58.130.148/mjpg/video.mjpg'
+RTSP_LINK = 'http://pendelcam.kip.uni-heidelberg.de/mjpg/video.mjpg'
 
 camera = cv2.VideoCapture(RTSP_LINK, cv2.CAP_FFMPEG)
 
