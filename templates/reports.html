@@ -4,46 +4,39 @@
     {% include 'nav.html' %}
 
     <div class="reports-content">
-        <h3>Reports</h3>
-        <button onclick="genReport()">Generate Report</button>
-        <div id="report"></div>
-        <ul>
-            <li id="first">
-                <div class="left">
-                    <p>Today's Live Data</p>
-                </div>
-                <div class="right">
-                    <p style="color: #F46B6B;">processing...</p>
-                    <a href="{{ url_for('view_report') }}" class="view-report-btn">View Report</a>
-                </div>
-                <div style="clear: both;"></div>
-            </li>
-            {% for report in reports %}
-                {% if loop.last %}
-                    <li id="last">
-                {% else %}
-                    <li>
-                {% endif %}
-                    <div class="left">
-                        <p>{{ report['date'] }}</p>
-                    </div>
-                    <div class="right">
-                        <p>{{ report['stage'] }}</p>
-                        <a href="{{ url_for('view_report') }}" class="view-report-btn">View Report</a>
-                    </div>
-                    <div style="clear: both;"></div>
-                </li>
-            {% endfor %}
-        </ul>
+        <h3>Report data</h3>
+        <label for="rows">Num of reports</label>
+        <input type="number" id="rows" name="rows" value="10">
+        <button onclick="getReportData()">Get Report Data</button>
+
+        <table id="reports-table">
+            <tr>
+                <th>Date</th>
+                <th>Moisture Level</th>
+                <th>Confidence</th>
+            </tr>
+        </table>
+
+        
     </div>
 
     <script>
-        async function genReport() {
-            const res = await fetch('/generate_report');
-            const report = await res.text()
+        async function getReportData() {
+            const rows = document.getElementById('rows').value
 
+            const res = await fetch(`/get_report_data?rows=${rows}`);
+            const data = await res.json();
+            
+            console.log(data)
 
-            document.getElementById('report').innerText = report;
-        }
+            data.forEach(report => {
+                let tr = document.createElement('tr')
+                tr.appendChild(document.createElement('td').innerText = report.time)
+                tr.appendChild(document.createElement('td').innerText = report.moisture_level)
+                tr.appendChild(document.createElement('td').innerText = report.accuracy)
+
+                document.getElementById('reports-table').appendChild(tr)
+            });
+        } 
     </script>
 {% endblock %}

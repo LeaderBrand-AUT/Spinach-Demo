@@ -1,13 +1,16 @@
 import base64
 from io import BytesIO
 from PIL import Image
-from flask import Flask, Response, render_template, redirect, request, url_for, abort
+from flask import Flask, Response, jsonify, render_template, redirect, request, url_for, abort
 import json
+
+from sqlalchemy import desc
 import cv2
 import live_feed
 import video_from_file
 from scripts.classifier import classifyFrame
 from scripts.database import db
+from scripts.report import Report
 from scripts.constants import IMAGE_HEIGHT, IMAGE_WIDTH, CURRENT_MODEL, STREAM_FPS
 import scripts.preprocessing.image_resize as resize_frame
 import scripts.preprocessing.white_balance as white_balance
@@ -126,6 +129,17 @@ def demo_from_file():
 @app.route('/file_video_feed')
 def file_video_feed():
     return Response(video_from_file.gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+# Get report data from DB
+@app.route('/get_report_data')
+def get_report_data():
+    rows = request.args.get('rows')
+    data = db.session.query(Report).order_by(desc(Report.time)).limit(rows).all()
+
+    reports = [report.to_dict() for report in data]
+
+    return jsonify(reports)
+    
 
 # Show information about current build
 print(f"Current model: {CURRENT_MODEL}")
