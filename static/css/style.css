@@ -4,6 +4,14 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+#loading {
+    display: none;
+    margin: 0 16px;
+    vertical-align: middle;
+    width: 32px;
+    height: 32px;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -272,7 +280,7 @@ form .submit:hover {
 }
 
 .generate-report-btn {
-    display: block;
+    display: inline-block;
     width: 200px;
     padding: 16px 32px;
     margin: 64px auto 16px 0;
@@ -291,9 +299,15 @@ form .submit:hover {
     display: flex;
 }
 
+#least_blurry_image_parent {
+    display: none;
+    margin-right: 50px;
+}
+
+
 #resized_image_parent {
     display: none;
-    margin-right: 10%;
+    margin-right: 50px;
 }
 
 #white_balanced_image_parent {

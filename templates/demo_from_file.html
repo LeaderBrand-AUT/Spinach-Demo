@@ -10,26 +10,27 @@
             <img src="{{ url_for('file_video_feed') }}" alt="factory floor">
     </div>
         <div id="preprocessing">
-            <button onclick="genReport()" class="generate-report-btn">Generate Report</button>
+            <div>
+                <button onclick="genReport()" class="generate-report-btn">Generate Report</button>
+                <img src="{{ url_for('static', filename='images/loading.gif') }}" alt="loading..." id="loading">
+            </div>
 
-            <table class="report">
+            <table class="report" id="reports-table">
                 <tr>
                     <th>Date & Time</th>
                     <th>Moisture Level</th>
                     <th>Accuracy</th>
                 </tr>
-                <tr>
-                    <td id="report_datetime"></td>
-                    <td id="report_moisture"></td>
-                    <td id="report_accuracy"></td>
-                </tr>
             </table>
             <div class="preprocessing_images">
+                <div id="least_blurry_image_parent">
+                    <p>Preprocessing Step 1: Get Least Blurry Frame</p>
+                </div>
                 <div id="resized_image_parent">
-                    <p>Preprocessing Step 1: Resize Image</p>
+                    <p>Preprocessing Step 2: Resize Image</p>
                 </div>
                 <div id="white_balanced_image_parent">
-                    <p>Preprocessing Step 2: Apply white balancing & adjust brightness</p>
+                    <p>Preprocessing Step 3: Apply white balancing & adjust brightness</p>
                 </div>
             </div>
             
@@ -39,30 +40,62 @@
 
     <script>
         async function genReport() {
+            // show loading symbol
+            document.getElementById('loading').style.display = 'inline';
+
             const res = await fetch('/generate_report?source=from_file')
             const report = await res.json()
 
-            document.getElementById('report_datetime').innerText = report.report.time;
-            document.getElementById('report_moisture').innerText = report.report.moisture_level;
-            document.getElementById('report_accuracy').innerText = report.report.accuracy
+            console.log(report)
+
+            // create report cells
+            const timeCell = document.createElement("td");
+            timeCell.innerText = report.report.time;
+
+            const moistureCell = document.createElement("td");
+            moistureCell.innerText = report.report.moisture_level;
+
+            const accuracyCell = document.createElement("td");
+            accuracyCell.innerText = report.report.accuracy;
+
+            // create new row
+            const newRow = document.createElement("tr");
+            newRow.append(timeCell, moistureCell, accuracyCell);
+
+            // append to table
+            document.getElementById("reports-table").append(newRow);
 
             genReportImages(report)
+
+            document.getElementById('loading').style.display = 'none';
         }
 
         function genReportImages(report) {
             // remove any images currently displayed
+            let leastBlurryImageElement = document.getElementById('least_blurry_image');
             let resizedImageElement = document.getElementById('resized_image');;
             let whiteBalancedImageElement = document.getElementById('white_balanced_image');
+            if (leastBlurryImageElement) {
+                leastBlurryImageElement.remove();
+            }
             if (resizedImageElement) {
-                resizedImageElement.remove()
+                resizedImageElement.remove();
             }
             if (whiteBalancedImageElement) {
-                whiteBalancedImageElement.remove()
+                whiteBalancedImageElement.remove();
             }
+
+            // create least blurry frame image element
+            leastBlurryImageElement = document.createElement("img");
+            let parentElement = document.getElementById("least_blurry_image_parent");
+            leastBlurryImageElement.src = 'data:image/jpeg;base64,' + report.least_blurry_frame;
+            leastBlurryImageElement.id = "least_blurry_image";
+            parentElement.appendChild(leastBlurryImageElement)
+            parentElement.style.display = "inline";
 
             // create resized image element
             resizedImageElement = document.createElement("img");
-            let parentElement = document.getElementById("resized_image_parent");
+            parentElement = document.getElementById("resized_image_parent");
             resizedImageElement.src = 'data:image/jpeg;base64,' + report.resized_image;
             resizedImageElement.id = 'resized_image';
             parentElement.appendChild(resizedImageElement);

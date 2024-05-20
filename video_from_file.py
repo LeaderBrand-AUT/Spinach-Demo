@@ -1,7 +1,15 @@
 import cv2
-from scripts.constants import *
+import numpy as np
+from collections import deque
+from scripts.constants import STREAM_FPS
 
 video = cv2.VideoCapture('./input_data/acceptable.mp4', cv2.CAP_FFMPEG)
+
+seconds_to_capture = 3 # for calculating least blurry frame
+buffer_size = STREAM_FPS * seconds_to_capture
+
+# store the last x seconds of frames
+frame_buffer = deque(maxlen=buffer_size)
 
 def gen_frames():
     while True:
@@ -12,6 +20,9 @@ def gen_frames():
             print('something not right, or reached end')
             continue
         else:
+            # add frame to buffer
+            frame_buffer.append(frame)
+
             ret, buffer = cv2.imencode('.jpg', frame)
             if not ret:
                 print("Failed to encode frame")
@@ -26,3 +37,9 @@ def get_frame():
         return
     else:
         return frame
+    
+def get_clip():
+    clip = list(frame_buffer)
+    clip_array = np.array(clip)
+
+    return clip_array
