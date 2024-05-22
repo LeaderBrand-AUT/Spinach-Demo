@@ -5,6 +5,7 @@
 
     <div class="reports-content">
         <h3>Reports</h3>
+        <a href="{{ url_for('visuals') }}" class="visual-btn">Visualize Reports</a>
         <button onclick="genReport()">Generate Report</button>
         <div id="report"></div>
         <ul>
@@ -46,4 +47,5 @@
             document.getElementById('report').innerText = report;
         }
     </script>
+
 {% endblock %}
