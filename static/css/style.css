@@ -12,6 +12,10 @@ body {
     height: 32px;
 }
 
+.error {
+    color: red;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -146,6 +150,7 @@ form .submit:hover {
     width: 1000px;
     max-width: 80%;
     margin-top: 96px;
+    position: relative;
 }
 
 .reports-content ul {
@@ -186,19 +191,12 @@ form .submit:hover {
     margin: 16px;
 }
 
-.view-report-btn {
-    margin-right: 16px;
-    padding: 16px;
-    border-radius: 12px;
-    background: #4AB7AE;
-    color: white;
-}
-
 /* View Report */
 .report-content {
     width: 800px;
     max-width: 80%;
     margin-top: 64px;
+    position: relative;
 }
 
 .report-content p {
@@ -256,6 +254,27 @@ form .submit:hover {
     height: 20px;
     vertical-align: middle;
     margin-right: 12px;
+}
+
+.get_reports input {
+    width: 140px;
+}
+
+#reports-table {
+    border-collapse: collapse;
+}
+
+#reports-table th, #reports-table td {
+    text-align: left;
+    min-width: 200px;
+    border: 1px solid black;
+    padding: 4px 32px 4px 8px;
+}
+
+.visualize-reports {
+    position: absolute;
+    top: 8px;
+    right: 8px;
 }
 
 /* LIVE DATA */
@@ -330,7 +349,6 @@ form .submit:hover {
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
