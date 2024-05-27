@@ -9,3 +9,7 @@ scripts/constants.py
 
 # reports
 classifications/*
+
+#pycache
+**/__pycache__/
+
