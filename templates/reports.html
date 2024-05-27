@@ -4,48 +4,82 @@
     {% include 'nav.html' %}
 
     <div class="reports-content">
-        <h3>Reports</h3>
-        <a href="{{ url_for('visuals') }}" class="visual-btn">Visualize Reports</a>
-        <button onclick="genReport()">Generate Report</button>
-        <div id="report"></div>
-        <ul>
-            <li id="first">
-                <div class="left">
-                    <p>Today's Live Data</p>
-                </div>
-                <div class="right">
-                    <p style="color: #F46B6B;">processing...</p>
-                    <a href="{{ url_for('view_report') }}" class="view-report-btn">View Report</a>
-                </div>
-                <div style="clear: both;"></div>
-            </li>
-            {% for report in reports %}
-                {% if loop.last %}
-                    <li id="last">
-                {% else %}
-                    <li>
-                {% endif %}
-                    <div class="left">
-                        <p>{{ report['date'] }}</p>
-                    </div>
-                    <div class="right">
-                        <p>{{ report['stage'] }}</p>
-                        <a href="{{ url_for('view_report') }}" class="view-report-btn">View Report</a>
-                    </div>
-                    <div style="clear: both;"></div>
-                </li>
-            {% endfor %}
-        </ul>
+        <h3>Report data</h3>
+        <a href="{{ url_for('visuals') }}" class="visual-btn visualize-reports">Visualize Reports</a>
+        
+        <br />
+
+        <div class="get_reports">
+            <label for="rows">Number of reports</label>
+            <br>
+            <input type="number" id="rows" name="rows" min="1" placeholder="# of reports"/>
+            <br>
+            <button onclick="getReportData()" class="visual-btn">Get Report Data</button>
+            <p class="error" id="get_report_error"></p>
+        </div>
+        
+        <table id="reports-table">
+            <tr id="reports-table-headers">
+                <th>Date</th>
+                <th>Moisture Level</th>
+                <th>Confidence</th>
+            </tr>
+        </table>
+
+        
     </div>
 
     <script>
-        async function genReport() {
-            const res = await fetch('/generate_report');
-            const report = await res.text()
+        async function getReportData() {
+            // remove any existing rows
+            const deleteExistingRows = () => {
+                return new Promise((resolve) => {
+                    let existingRows = Array.from(document.getElementsByTagName('tr'));
 
+                    for (let i = 1; i < existingRows.length; i++) {
+                        existingRows[i].remove();
+                    }
 
-            document.getElementById('report').innerText = report;
-        }
+                    resolve();
+                })
+            }
+            
+            await deleteExistingRows();
+
+            // get num of rows to fetch
+            const rows = document.getElementById('rows').value
+
+            // error handling
+            if (rows < 1) {
+                document.getElementById('get_report_error').innerText = "Please select a value of at least 1";
+                return;
+            } else {
+                document.getElementById('get_report_error').innerText = "";
+            }
+
+            // get data
+            const res = await fetch(`/get_report_data?rows=${rows}`);
+            const data = await res.json();
+
+            // create table entry
+            data.forEach(report => {
+                let tr = document.createElement('tr')
+                
+                let time = document.createElement('td');
+                let moisture_level = document.createElement('td');
+                let accuracy = document.createElement('td');
+
+                time.innerText = report.time;
+                moisture_level.innerText = report.moisture_level;
+                accuracy.innerText = report.accuracy;
+                
+                tr.append(time)
+                tr.append(moisture_level)
+                tr.append(accuracy)
+
+                document.getElementById('reports-table').append(tr)
+            });
+        } 
     </script>
 
 {% endblock %}
