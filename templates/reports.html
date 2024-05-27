@@ -5,6 +5,7 @@
 
     <div class="reports-content">
         <h3>Report data</h3>
+        <a href="{{ url_for('visuals') }}" class="visual-btn">Visualize Reports</a>
         <label for="rows">Num of reports</label>
         <input type="number" id="rows" name="rows" value="10">
         <button onclick="getReportData()">Get Report Data</button>
@@ -39,4 +40,5 @@
             });
         } 
     </script>
+
 {% endblock %}

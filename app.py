@@ -15,6 +15,8 @@ from scripts.constants import IMAGE_HEIGHT, IMAGE_WIDTH, CURRENT_MODEL, STREAM_F
 import scripts.preprocessing.image_resize as resize_frame
 import scripts.preprocessing.white_balance as white_balance
 import scripts.preprocessing.get_least_blurry as get_least_blurry
+from scripts.visualize_reports import get_all_reports
+from scripts.visualize_reports import count_moisture_levels
 
 app = Flask(__name__)
 
@@ -140,6 +142,14 @@ def get_report_data():
 
     return jsonify(reports)
     
+@app.route('/visuals', methods=['GET'])
+def visuals():
+    count_dict = count_moisture_levels()
+    data = {
+        "labels": list(count_dict.keys()),
+        "data": list(count_dict.values())
+    }
+    return render_template('visuals.html', data=data, backButton='reports')
 
 # Show information about current build
 print(f"Current model: {CURRENT_MODEL}")
