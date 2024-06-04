@@ -25,3 +25,5 @@ How to run:
     - If you change the name of this file, make sure to update it in ./scripts/constants.py
 
  - run 'python app.py' from home directory
+
+Note: Currently, the demo live feed page relies on public RTSP streams - These are not guaranteed to work, and the AI model is not guaranteed to work with this data.
