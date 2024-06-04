@@ -4,8 +4,8 @@ videos/
 # large files
 models/
 
-# constants
-scripts/constants.py
+# # constants
+# scripts/constants.py
 
 # reports
 classifications/*
