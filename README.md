@@ -26,4 +26,4 @@ How to run:
 
  - run 'python app.py' from home directory
 
-Note: Currently, the demo live feed page relies on public RTSP streams - These are not guaranteed to work, and the AI model is not guaranteed to work with this data.
+Currently, the demo live feed page relies on public RTSP streams - These are not guaranteed to work, and the AI model is not guaranteed to work with this data. To change the RTSP stream, change the link in ./scripts/constants.py.

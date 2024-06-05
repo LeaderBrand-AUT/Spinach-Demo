@@ -3,8 +3,6 @@ import numpy as np
 import cv2
 from scripts.constants import *
 
-RTSP_LINK = 'http://pendelcam.kip.uni-heidelberg.de/mjpg/video.mjpg'
-
 camera = cv2.VideoCapture(RTSP_LINK, cv2.CAP_FFMPEG)
 
 seconds_to_capture = 3 # for calculating least blurry frame
